@@ -5,14 +5,18 @@ import { useParams } from 'react-router-dom'
 
 function AlbumView() {
     const { id } = useParams()
-    const [albumData, setAlbumData] = useState([])
+    const [artistData, setArtistData] = useState([])
 
-    return (
-        <div>
-            <h2>The id passed was: {id}</h2>
-            <p>Album Data Goes Here!</p>
-        </div>
-    )
+    useEffect(() => {
+        const API_URL = 'http://localhost:4000/album/${id}'
+        const fetchData = async () => {
+            const response = await fetch(API_URL)
+            const resData = await response.json()
+            setArtistData(resData.results)
+        }
+        fetchData()
+    }, [id])
 }
+
 
 export default AlbumView
