@@ -8,17 +8,26 @@ import AlbumView from './components/AlbumView';
 import ArtistView from './components/ArtistView';
 
 function App() {
-  let [search, setSearch] = useState('')
+  let [searchTerm, setSearchTerm] = useState('')
   let [message, setMessage] = useState('Search for Music!')
   let [data, setData] = useState([])
 
   const API_URL = 'https://itunes.apple.com/search?term='
 
+  function toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
+
   useEffect(() => {
-    if (search) {
+    if (searchTerm) {
       const fetchData = async () => {
-        document.title = `${search} Music`
-        const response = await fetch(API_URL + search)
+        document.title = `${searchTerm} Music`
+        const response = await fetch(API_URL + searchTerm)
         const resData = await response.json()
         if (resData.results.length > 0) {
           setData(resData.results)
@@ -28,12 +37,13 @@ function App() {
       }
       fetchData()
     }
-  }, [search])
+  }, [searchTerm, API_URL])
 
 
   const handleSearch = (e, term) => {
     e.preventDefault()
-    setSearch(term)
+    term = toTitleCase(term)
+    setSearchTerm(term)
   }
 
   return (
