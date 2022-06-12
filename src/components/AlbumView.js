@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import Spinner from './Spinner'
 
 const AlbumView = () => {
     const { id } = useParams()
@@ -7,8 +8,8 @@ const AlbumView = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        const API_URL = `http://localhost:3000/song/${id}`
         const fetchData = async () => {
-            const API_URL = `http://localhost:3000/song/${id}`
             const response = await fetch(API_URL)
             const resData = await response.json()
             setAlbumData(resData.results)
@@ -38,7 +39,7 @@ const AlbumView = () => {
 
     return (
         <div>
-            {albumData.length > 0 ? <h2>{albumData[0].albumName}</h2> : <h2>Loading...</h2>}
+            {albumData.length > 0 ? <h2>{albumData[0].albumName}</h2> : <Spinner />}
             {navButtons()}
             {renderSongs}
         </div>
