@@ -14,6 +14,15 @@ function App() {
 
   const API_URL = 'https://itunes.apple.com/search?term='
 
+  function toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
+
   useEffect(() => {
     document.title = `${searchTerm} Music`
     if (searchTerm) {
